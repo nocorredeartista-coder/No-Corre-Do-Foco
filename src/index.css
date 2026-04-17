@@ -1,0 +1,86 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Anton", sans-serif;
+  --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+  
+  --color-bg: #050505;
+  --color-card: #121214;
+  --color-accent: #E0FF00;
+  --color-accent-glow: rgba(224, 255, 0, 0.15);
+  --color-text-dim: #8E8E93;
+  --color-danger: #FF453A;
+  --color-success: #32D74B;
+}
+
+@layer base {
+  body {
+    @apply bg-bg text-white font-sans antialiased;
+  }
+}
+
+.immersive-card {
+  @apply bg-card border border-white/5 rounded-[24px] p-6;
+}
+
+.immersive-btn {
+  @apply px-4 py-2 rounded-full font-bold transition-all duration-200 cursor-pointer;
+}
+
+.immersive-btn-primary {
+  @apply bg-accent text-black hover:shadow-[0_0_20px_rgba(224,255,0,0.3)];
+}
+
+.immersive-btn-main {
+  @apply w-full bg-accent text-black py-4 rounded-2xl font-black uppercase text-base hover:shadow-[0_0_30px_rgba(224,255,0,0.4)];
+}
+
+.immersive-btn-secondary {
+  @apply bg-white/10 text-white hover:bg-white/20;
+}
+
+.section-title {
+  @apply text-[11px] uppercase tracking-[1.5px] text-text-dim mb-4 block font-bold;
+}
+
+.task-item-bg {
+  @apply bg-white/[0.03] rounded-2xl p-4 border-l-4 border-transparent transition-all;
+}
+
+.task-item-active {
+  @apply border-accent bg-accent/5;
+}
+
+.timer-circle {
+  @apply w-[220px] h-[220px] border-8 border-accent rounded-full flex flex-col items-center justify-center 
+  shadow-[0_0_40px_rgba(224,255,0,0.3)] bg-radial from-accent/10 to-transparent;
+}
+
+.check-box {
+  @apply w-5 h-5 border-2 border-text-dim rounded-md flex items-center justify-center transition-colors;
+}
+
+.check-box-done {
+  @apply bg-success border-success text-black;
+}
+
+.progress-bar-bg {
+  @apply h-2 bg-white/10 rounded-full overflow-hidden;
+}
+
+.progress-bar-fill {
+  @apply h-full bg-accent rounded-full transition-all duration-500;
+}
+
+.mood-box {
+  @apply bg-accent/10 border border-dashed border-accent p-4 rounded-2xl;
+}
+
+.dot-stat {
+  @apply w-6 h-6 rounded-md bg-white/[0.05] flex items-center justify-center text-[10px] font-bold text-text-dim;
+}
+
+.dot-stat-active {
+  @apply bg-accent text-black;
+}

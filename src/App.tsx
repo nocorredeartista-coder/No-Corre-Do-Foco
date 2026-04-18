@@ -298,9 +298,13 @@ export default function App() {
   };
 
   const shareTask = async (task: Task) => {
+    const shareText = task.completed !== undefined 
+      ? `🚀 Concluí mais um corre: "${task.text}"! \n\nFoco total no meu desenvolvimento artístico. #NoCorreDoFoco #ArtistaIndependente`
+      : task.text;
+
     const shareData = {
       title: 'No Corre do Foco',
-      text: `🚀 Concluí mais um corre: "${task.text}"! \n\nFoco total no meu desenvolvimento artístico. #NoCorreDoFoco #ArtistaIndependente`,
+      text: shareText,
       url: window.location.href
     };
 
@@ -643,13 +647,16 @@ export default function App() {
 
           <button 
             onClick={() => {
-              if (focusTask) toggleTask(focusTask.id);
+              if (focusTask) {
+                toggleTask(focusTask.id);
+                shareTask({ ...focusTask, completed: true });
+              }
               setView('dashboard');
               setIsTimerActive(false);
             }}
             className="immersive-btn-main !w-auto !px-12"
           >
-            Concluir Tarefa
+            Concluir e Compartilhar
           </button>
         </div>
       </motion.div>
@@ -661,9 +668,22 @@ export default function App() {
     const weeklyData = history.slice(-7);
     const completedToday = tasks.filter(t => t.completed).length;
 
+    const shareProgress = () => {
+      const text = `🔥 Meu progresso de hoje no NO CORRE DO FOCO: \n✅ ${completedToday} tarefas concluídas! \n🎯 Foco total na minha música. \n\n#NoCorreDoFoco #Independente`;
+      shareTask({ text } as Task);
+    };
+
     return (
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-8 pb-24">
-        <h2 className="font-display text-4xl mb-8 uppercase tracking-tight">Sua Evolução</h2>
+        <div className="flex justify-between items-center mb-8">
+          <h2 className="font-display text-4xl uppercase tracking-tight">Sua Evolução</h2>
+          <button 
+            onClick={shareProgress}
+            className="flex items-center gap-2 text-[10px] font-bold uppercase py-2 px-4 bg-accent text-black rounded-full hover:scale-105 transition-transform"
+          >
+            <Share2 className="w-4 h-4" /> Compartilhar Progresso
+          </button>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="immersive-card flex flex-col">

@@ -1,10 +1,20 @@
 import { GoogleGenAI, Type } from "@google/genai";
+import { TASK_DATABASE } from "../data/tasks";
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 export interface SuggestedTask {
   text: string;
   duration: number; // minutes
+}
+
+export function getRandomLocalTask(): SuggestedTask {
+  const randomIndex = Math.floor(Math.random() * TASK_DATABASE.length);
+  const task = TASK_DATABASE[randomIndex];
+  return {
+    text: task.text,
+    duration: task.duration
+  };
 }
 
 export async function getArtistDevelopmentTask(mood: string): Promise<SuggestedTask> {
@@ -41,9 +51,6 @@ export async function getArtistDevelopmentTask(mood: string): Promise<SuggestedT
     return result as SuggestedTask;
   } catch (error) {
     console.error("Erro ao gerar tarefa:", error);
-    return {
-      text: "Separe 15 minutos para organizar suas próximas letras.",
-      duration: 15
-    };
+    return getRandomLocalTask();
   }
 }

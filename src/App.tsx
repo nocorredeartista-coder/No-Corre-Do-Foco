@@ -20,7 +20,8 @@ import {
   Share2
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { getArtistDevelopmentTask, type SuggestedTask } from './services/geminiService';
+import { getArtistDevelopmentTask, getRandomLocalTask, type SuggestedTask } from './services/geminiService';
+import { TASK_DATABASE } from './data/tasks';
 
 // --- Types ---
 
@@ -357,6 +358,11 @@ export default function App() {
       setIsAiLoading(false);
     };
 
+    const handleRandomIdea = () => {
+      const task = getRandomLocalTask();
+      setAiSuggestion(task);
+    };
+
     const acceptAiTask = () => {
       if (aiSuggestion) {
         addTask(aiSuggestion.text);
@@ -388,15 +394,23 @@ export default function App() {
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
                 <Target className="w-4 h-4 text-accent" />
-                <span className="text-[12px] font-bold uppercase tracking-wider">Corre do Artista</span>
+                <span className="text-[12px] font-bold uppercase tracking-wider">Banco de Ideias ({TASK_DATABASE.length}+)</span>
               </div>
-              <button 
-                onClick={handleGenerateAiTask}
-                disabled={isAiLoading}
-                className={`text-[10px] font-bold uppercase py-1 px-3 rounded-full transition-all ${isAiLoading ? 'bg-white/5 text-text-dim' : 'bg-accent text-black hover:scale-105'}`}
-              >
-                {isAiLoading ? 'Gerando...' : 'Sugestão Rápida'}
-              </button>
+              <div className="flex gap-2">
+                <button 
+                  onClick={handleRandomIdea}
+                  className="text-[10px] font-bold uppercase py-1 px-3 rounded-full bg-white/5 text-text-dim hover:bg-white/10 transition-all border border-white/5"
+                >
+                  Ideia Aleatória
+                </button>
+                <button 
+                  onClick={handleGenerateAiTask}
+                  disabled={isAiLoading}
+                  className={`text-[10px] font-bold uppercase py-1 px-3 rounded-full transition-all ${isAiLoading ? 'bg-white/5 text-text-dim' : 'bg-accent text-black hover:scale-105'}`}
+                >
+                  {isAiLoading ? 'Gerando IA...' : 'Sugestão IA'}
+                </button>
+              </div>
             </div>
             
             {aiSuggestion ? (
